@@ -33,14 +33,17 @@ export default function ActiveWalk() {
           const { latitude, longitude } = position.coords;
           setPath(prev => [...prev, [latitude, longitude]]);
           
-          if (path.length > 1) {
-            // Calculate distance between last two points
+          if (path.length > 0) {
+            // Calculate distance between last point and current position
             const lastPoint = path[path.length - 1];
             const newDistance = calculateDistance(
               lastPoint[0], lastPoint[1],
               latitude, longitude
             );
-            setDistance(prev => prev + newDistance);
+            // Only add distance if it's reasonable (more than 1 meter, less than 1km)
+            if (newDistance > 0.001 && newDistance < 1) {
+              setDistance(prev => prev + newDistance);
+            }
           }
         },
         (error) => console.error(error),
