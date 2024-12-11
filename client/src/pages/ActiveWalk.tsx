@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { queryClient } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { startActivity, endActivity } from "@/lib/api";
 import { Timer, MapPin } from "lucide-react";
 import { WalkingMap } from "@/components/WalkingMap";
+import { useState, useEffect } from "react";
+import { getLocationName } from "@/lib/utils";
 
 export default function ActiveWalk() {
   const [, setLocation] = useLocation();
@@ -21,10 +22,14 @@ export default function ActiveWalk() {
   });
 
   const endMutation = useMutation({
-    mutationFn: ({ id, path, duration, distance }) => 
-      endActivity(id, JSON.stringify(path), duration, distance),
+    mutationFn: ({ id, path, duration, distance, location }: { 
+      id: number; 
+      path: [number, number][]; 
+      duration: number; 
+      distance: number;
+      location: string;
+    }) => endActivity(id, JSON.stringify(path), duration, distance),
     onSuccess: () => {
-      // Invalidate activities query before redirecting
       queryClient.invalidateQueries({ queryKey: ['/api/activities'] });
       setLocation('/');
     },
@@ -40,13 +45,11 @@ export default function ActiveWalk() {
           setPath(prev => [...prev, [latitude, longitude]]);
           
           if (path.length > 0) {
-            // Calculate distance between last point and current position
             const lastPoint = path[path.length - 1];
             const newDistance = calculateDistance(
               lastPoint[0], lastPoint[1],
               latitude, longitude
             );
-            // Only add distance if it's reasonable (more than 1 meter, less than 1km)
             if (newDistance > 0.001 && newDistance < 1) {
               setDistance(prev => prev + newDistance);
             }
