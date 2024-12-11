@@ -5,10 +5,21 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { MapIcon } from "lucide-react";
+import { getActivities } from "@/lib/api";
+
+interface Activity {
+  id: number;
+  startTime: string;
+  endTime: string;
+  duration: number;
+  distance: number;
+  path: string;
+}
 
 export default function Dashboard() {
-  const { data: activities } = useQuery({
+  const { data: activities = [] } = useQuery<Activity[]>({
     queryKey: ['/api/activities'],
+    queryFn: getActivities,
   });
 
   return (
