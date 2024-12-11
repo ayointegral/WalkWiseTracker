@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
+import { queryClient } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
@@ -21,7 +22,11 @@ export default function ActiveWalk() {
   const endMutation = useMutation({
     mutationFn: ({ id, path, duration, distance }) => 
       endActivity(id, JSON.stringify(path), duration, distance),
-    onSuccess: () => setLocation('/'),
+    onSuccess: () => {
+      // Invalidate activities query before redirecting
+      queryClient.invalidateQueries({ queryKey: ['/api/activities'] });
+      setLocation('/');
+    },
   });
 
   useEffect(() => {

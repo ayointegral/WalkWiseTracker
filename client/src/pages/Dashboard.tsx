@@ -20,6 +20,7 @@ export default function Dashboard() {
   const { data: activities = [] } = useQuery<Activity[]>({
     queryKey: ['/api/activities'],
     queryFn: getActivities,
+    refetchInterval: 5000, // Refetch every 5 seconds
   });
 
   return (
