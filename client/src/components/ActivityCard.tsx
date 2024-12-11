@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Timer, MapPin } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { WalkingMap } from "@/components/WalkingMap";
 
 interface ActivityCardProps {
   activity: {
@@ -8,6 +9,7 @@ interface ActivityCardProps {
     startTime: string;
     duration: number;
     distance: number;
+    path?: string;
   };
 }
 
@@ -31,6 +33,12 @@ export function ActivityCard({ activity }: ActivityCardProps) {
             <span>{activity.distance} km</span>
           </div>
         </div>
+        {activity.path && (
+          <WalkingMap 
+            path={JSON.parse(activity.path)} 
+            className="mt-4 h-[150px]" 
+          />
+        )}
       </div>
     </Card>
   );
