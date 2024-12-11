@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
 import { startActivity, endActivity } from "@/lib/api";
 import { Timer, MapPin } from "lucide-react";
+import { WalkingMap } from "@/components/WalkingMap";
 
 export default function ActiveWalk() {
   const [, setLocation] = useLocation();
@@ -78,7 +79,8 @@ export default function ActiveWalk() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 space-y-6">
+      <WalkingMap path={path} className="h-[300px]" />
       <Card className="p-6 max-w-md mx-auto">
         <div className="space-y-6">
           <div className="flex items-center gap-4">
