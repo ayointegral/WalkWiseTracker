@@ -5,7 +5,7 @@ export const activities = pgTable("activities", {
   id: serial("id").primaryKey(),
   startTime: timestamp("start_time").notNull().defaultNow(),
   endTime: timestamp("end_time"),
-  duration: numeric("duration"), // in minutes
+  duration: numeric("duration", { precision: 10, scale: 2 }), // in minutes (supports decimal)
   distance: numeric("distance"), // in kilometers
   path: text("path"), // JSON string of coordinates
 });

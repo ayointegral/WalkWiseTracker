@@ -21,7 +21,10 @@ export function ActivityCard({ activity }: ActivityCardProps) {
           </p>
           <div className="flex items-center gap-2">
             <Timer className="w-4 h-4" />
-            <span>{activity.duration} min</span>
+            <span>
+              {Math.floor(activity.duration)} min{' '}
+              {Math.round((activity.duration % 1) * 60)} sec
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4" />

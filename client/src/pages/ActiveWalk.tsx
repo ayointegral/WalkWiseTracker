@@ -66,7 +66,7 @@ export default function ActiveWalk() {
       endMutation.mutate({
         id: activityId,
         path,
-        duration: Math.round(duration / 60), // Convert to minutes
+        duration: +(duration / 60).toFixed(2), // Convert to minutes with 2 decimal places
         distance: parseFloat(distance.toFixed(2))
       });
     }
