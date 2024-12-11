@@ -10,6 +10,7 @@ interface ActivityCardProps {
     duration: number;
     distance: number;
     path?: string;
+    location?: string;
   };
 }
 
@@ -28,9 +29,16 @@ export function ActivityCard({ activity }: ActivityCardProps) {
               {Math.round((activity.duration % 1) * 60)} sec
             </span>
           </div>
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
-            <span>{activity.distance} km</span>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              <span>{activity.distance} km</span>
+            </div>
+            {activity.location && (
+              <p className="text-sm text-muted-foreground pl-6">
+                at {activity.location}
+              </p>
+            )}
           </div>
         </div>
         {activity.path && (

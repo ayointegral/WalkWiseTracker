@@ -67,13 +67,17 @@ export default function ActiveWalk() {
     }
   }, []);
 
-  const handleEndWalk = () => {
-    if (activityId) {
+  const handleEndWalk = async () => {
+    if (activityId && path.length > 0) {
+      const lastPoint = path[path.length - 1];
+      const location = await getLocationName(lastPoint[0], lastPoint[1]);
+      
       endMutation.mutate({
         id: activityId,
         path,
         duration: +(duration / 60).toFixed(2), // Convert to minutes with 2 decimal places
-        distance: parseFloat(distance.toFixed(2))
+        distance: parseFloat(distance.toFixed(2)),
+        location
       });
     }
   };

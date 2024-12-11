@@ -8,6 +8,7 @@ export const activities = pgTable("activities", {
   duration: numeric("duration", { precision: 10, scale: 2 }), // in minutes (supports decimal)
   distance: numeric("distance"), // in kilometers
   path: text("path"), // JSON string of coordinates
+  location: text("location"), // Street name or area description
 });
 
 export const insertActivitySchema = createInsertSchema(activities);

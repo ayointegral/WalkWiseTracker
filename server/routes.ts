@@ -17,14 +17,15 @@ export function registerRoutes(app: Express): Server {
 
   app.post("/api/activities/:id/end", async (req, res) => {
     const { id } = req.params;
-    const { path, duration, distance } = req.body;
+    const { path, duration, distance, location } = req.body;
     
     const result = await db.update(activities)
       .set({ 
         endTime: sql`CURRENT_TIMESTAMP`,
         path,
         duration,
-        distance
+        distance,
+        location
       })
       .where(sql`id = ${id}`)
       .returning();
